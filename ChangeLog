@@ -1,3 +1,9 @@
+2005-01-28  Steve Dutky  <sdutky@terpalum.umd.edu>
+	* DESCRIPTION (Version): 1.0-4
+
+	* src/cksum.c: replaced all 'u_int' with 'unsigned character' to
+		hopefully allow successful check & install for Windows
+
 2005-01-26  Steve Dutky  <sdutky@terpalum.umd.edu>
 	* DESCRIPTION (Version): 1.0-3
 

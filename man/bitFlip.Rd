@@ -9,7 +9,7 @@ bitFlip(a, bitWidth=32)
 }
 \arguments{
   \item{a}{numeric vector.}
-  \item{bitWidth}{scalar integer between 0 and 32}
+  \item{bitWidth} {scalar integer between 0 and 32}
 }
 \value{
   binary numeric vector of the same length as \code{a} masked with

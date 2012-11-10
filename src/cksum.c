@@ -69,12 +69,12 @@ void cksum(int *nstrings,
 	   double *crcs)
 {
     int i ;
-    register u_char *p;
+    register unsigned char *p;
     register unsigned int crc, len;
 
     for (i=0 ; i < *nstrings ; i++ ) {
 	crc = len = 0;
-	for ( p = (u_char *)strings[i] ; *p ; ++p, len++ ) {
+	for ( p = (unsigned char *)strings[i] ; *p ; ++p, len++ ) {
 	    COMPUTE(crc, *p);
 	}
 
