@@ -1,13 +1,10 @@
 Package: bitops
-Version: 1.0-4.2
-Date: 2009-02-13
+Version: 1.0-5
+Date: 2011-11-10
 Author: S original by Steve Dutky <sdutky@terpalum.umd.edu> initial R
-        port and extensions by Martin Maechler.  revised and modified
+        port and extensions by Martin Maechler; revised and modified
         by Steve Dutky
-Maintainer: Steve Dutky <sdutky@terpalum.umd.edu>
-Title: Functions for Bitwise operations
-Description: Functions for Bitwise operations on integer vectors.
+Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
+Title: Bitwise Operations
+Description: Functions for bitwise operations on integer vectors.
 License: GPL (>= 2)
-Packaged: 2012-11-03 17:23:19 UTC; ripley
-Repository: CRAN
-Date/Publication: 2012-11-03 17:42:21
