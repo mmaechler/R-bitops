@@ -4,7 +4,7 @@
 \alias{bitXor}
 \title{Bitwise And, Or and Xor operations}
 \description{
-  ~~ A concise (1-5 lines) description of what the function does. ~~
+  returns the bitwise operation applied to the arguments
 }
 \usage{
 bitAnd(a, b)
@@ -12,18 +12,27 @@ bitOr (a, b)
 bitXor(a, b)
 }
 \arguments{
-  \item{a,b}{binary integer vectors of same length.}
+  \item{a,b}{numeric vectors of compatible length.}
 }
-%\details{
-%  ~~ If necessary, more details than the __description__  above ~~
-%}
+\details{
+  The bitwise operations are applied to the arguments cast as 64 bit
+  (long long) intergers.  NA is returned wherever the magnitude of the
+  arguments fails to resolve 1 (ie 2**52), or, where either of the
+  arguments is not finite.
+
+}
 \value{
-  binary integer vector of same length as \code{a} and \code{b}.
+  numeric vector of maximum length of \code{a} or \code{b}.
+
 }
 %\references{ ~put references to the literature/web site here ~ }
-%\author{ ~~who you are~~ }
+\author{ Steve Dutky <sdutky@terpalum.umd.edu> }
 %\seealso{ ~~objects to See Also as \code{\link{~~fun~~}}, ~~~ }
 \examples{
+	bitAnd(15,7) == 7
+	bitOr(15,7) == 15
+	bitXor(15,7) == 8
+
 }
 \keyword{arith}
 \keyword{utilities}

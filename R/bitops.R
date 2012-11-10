@@ -8,82 +8,47 @@
 ##
 ## OTOH: instead of CLASSES & COPY, we should use .Call() !!
 
-bitFlip <- function(a)
+bitFlip <- function(a,bitWidth=32)
 {
-    if(any(is.na(a <- as.integer(a)))) stop("NAs in bit object ", sQuote(a))
-    x <- a
-    .C("bitFlip",
-       length(a), a,
-       x, DUP = FALSE, PACKAGE = "bitops") #-> x has result
-    x
+    .Call("bitFlip", a, bitWidth, PACKAGE = "bitops")
 }
 
 
 bitAnd <- function(a, b)
 {
-    if(any(is.na(a <- as.integer(a)))) stop("NAs in bit object ", sQuote(a))
-    if(any(is.na(b <- as.integer(b)))) stop("NAs in bit object ", sQuote(b))
-    x <- a
-    .C("bitAnd",
-       length(a), a, length(b), b,
-       x, DUP = FALSE, PACKAGE = "bitops") #-> x has result
-    x
+    .Call("bitAnd", a, b, PACKAGE = "bitops")
 }
 
 bitOr <- function(a, b)
 {
-    if(any(is.na(a <- as.integer(a)))) stop("NAs in bit object ", sQuote(a))
-    if(any(is.na(b <- as.integer(b)))) stop("NAs in bit object ", sQuote(b))
-    x <- a
-    .C("bitOr",
-       length(a), a, length(b), b,
-       x, DUP = FALSE, PACKAGE = "bitops") #-> x has result
-    x
+    .Call("bitOr", a, b, PACKAGE = "bitops")
 }
 
 bitXor <- function(a, b)
 {
-    if(any(is.na(a <- as.integer(a)))) stop("NAs in bit object ", sQuote(a))
-    if(any(is.na(b <- as.integer(b)))) stop("NAs in bit object ", sQuote(b))
-    x <- a
-    .C("bitXor",
-       length(a), a, length(b), b,
-       x, DUP = FALSE, PACKAGE = "bitops") #-> x has result
-    x
+    .Call("bitXor", a, b, PACKAGE = "bitops")
 }
 
 
 bitShiftL <- function(a, b)
 {
-    if(any(is.na(a <- as.integer(a)))) stop("NAs in bit object ", sQuote(a))
-    if(any(is.na(b <- as.integer(b)))) stop("NAs in bit object ", sQuote(b))
-    x <- a
-    .C("bitShiftL",
-       length(a), a, length(b), b,
-       x, DUP = FALSE, PACKAGE = "bitops") #-> x has result
-    x
+    .Call("bitShiftL", a, b, PACKAGE = "bitops")
 }
 
 bitShiftR <- function(a, b)
 {
-    if(any(is.na(a <- as.integer(a)))) stop("NAs in bit object ", sQuote(a))
-    if(any(is.na(b <- as.integer(b)))) stop("NAs in bit object ", sQuote(b))
-    x <- a
-    .C("bitShiftR",
-       length(a), a, length(b), b,
-       x, DUP = FALSE, PACKAGE = "bitops") #-> x has result
-    x
+    .Call("bitShiftR", a, b, PACKAGE = "bitops")
 }
 
 
-crc <- function(a)
+cksum <- function(a)
 {
     x <- nchar(as.character(a))*0
-    x <- x + .C("crc",
+    x <- x + .C("cksum",
                 length(a), as.character(a),
                 val = as.numeric(x),
-		## CLASSES = c("integer","character","numeric"),
-		## COPY = c(FALSE, FALSE, TRUE),
+		NAOK=TRUE,
+		DUP=TRUE,
                 PACKAGE= "bitops")$val
     x[is.na(a)] <- NA
     x

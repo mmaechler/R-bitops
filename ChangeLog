@@ -1,0 +1,16 @@
+2004-11-22  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 1.0-1
+
+	* src/cksum.c: use 'int', not 'long' (to work on 64-bit!)
+
+	* man/cksum.Rd: fix \references{}, \email
+
+
+2004-11-04  Steve Dutky  <sdutky@terpalum.umd.edu>
+
+	* DESCRIPTION (Version): 1.0-0
+
+	* R/bitops.R: use .Call() everywhere
+
+	* .....
