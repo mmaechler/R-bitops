@@ -1,0 +1,10 @@
+Package: bitops
+Version: 0.7-0
+Date: 2003-11-10
+Author: S original by Steve Dutky <sdutky@terpalum.umd.edu>
+  R port and extensions by Martin Maechler.
+Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
+Title: Functions for Bitwise operations
+Description: Functions for Bitwise operations ...............
+License: GPL version 2 or later
+Packaged: Tue Jul  6 18:56:55 2004; maechler
