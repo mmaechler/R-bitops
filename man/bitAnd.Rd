@@ -15,10 +15,10 @@ bitXor(a, b)
   \item{a,b}{numeric vectors of compatible length.}
 }
 \details{
-  The bitwise operations are applied to the arguments cast as 64 bit
-  (long long) intergers.  NA is returned wherever the magnitude of the
-  arguments fails to resolve 1 (ie 2**52), or, where either of the
-  arguments is not finite.
+  The bitwise operations are applied to the arguments cast as 32 bit
+  (unigned long) integers.  NA is returned wherever the magnitude of the
+  arguments is not less than 2**31, or, where either of the arguments is
+  not finite.
 
 }
 \value{
@@ -32,6 +32,7 @@ bitXor(a, b)
 	bitAnd(15,7) == 7
 	bitOr(15,7) == 15
 	bitXor(15,7) == 8
+	bitOr(-1,0) == 4294967295
 
 }
 \keyword{arith}

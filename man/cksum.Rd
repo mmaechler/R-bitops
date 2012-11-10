@@ -17,7 +17,7 @@ cksum(a)
   ACM article (in the References).
 }
 \value{
-  ... %% FIXME
+  numeric vector of length \code{a}.
 }
 \references{
   Fashioned from \code{cksum(1)} UNIX command line utility, i.e.,
@@ -26,7 +26,7 @@ cksum(a)
   Dilip V. Sarwate (1988).
   Computation of Cyclic Redundancy Checks Via Table Lookup,
   \emph{Communications of the ACM}, August 1988.
-%% FIXME:  \bold{vol}, page1--pagen
+  \bold{vol} 31, No.8  page 1008-1013
 }
 \author{Steve Dutky \email{sdutky@terpalum.umd.edu}
 }

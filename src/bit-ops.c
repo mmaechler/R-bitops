@@ -7,8 +7,8 @@
 */
 SEXP bitFlip(SEXP a, SEXP bitWidth ) {
 	int i, n, *xbitWidth;
-	unsigned long long  mask ;
-	long long tmp ;
+	unsigned long  mask ;
+	unsigned long tmp ;
 	double *xa, *xaflip ;
 	SEXP aflip ;
 	
@@ -22,14 +22,14 @@ SEXP bitFlip(SEXP a, SEXP bitWidth ) {
 	xaflip=NUMERIC_POINTER(aflip) ;
 	xbitWidth=INTEGER_POINTER(bitWidth)  ;
 
-	mask = ( unsigned long long ) -1 >> (64 - *xbitWidth)  ;
+	mask = ( unsigned long ) -1 >> (32 - *xbitWidth)  ;
 
 
 	for (i=0; i<n; i++ ) {
-		if ( !R_FINITE(xa[i]) || logb(xa[i])>52 ) xaflip[i]=NA_REAL ;
+		if ( !R_FINITE(xa[i]) || logb(xa[i])>31 ) xaflip[i]=NA_REAL ;
 
 		else {
-			tmp=(long long) xa[i] ;
+			tmp=(unsigned long) xa[i] ;
 			xaflip[i]=(double) ( ~tmp & mask ) ; 
 		}
 	}
@@ -64,7 +64,8 @@ SEXP bitFlip(SEXP a, SEXP bitWidth ) {
 		t=shorter ; shorter=longer ; longer= t ;  \
 	}                                                 \
                                                           \
-	if ( !nshorter || !nlonger || nlonger % nshorter ) nlonger=0 ; \
+	if ( !nshorter || !nlonger ) nlonger=0 ; \
+	else if ( nlonger % nshorter ) warning("longer object length is not a multiple of shorter object length\n") ; \
                                                           \
 	PROTECT (aAb = NEW_NUMERIC(nlonger) ) ;           \
 	t=NUMERIC_POINTER(aAb) ;                          \
@@ -73,9 +74,10 @@ SEXP bitFlip(SEXP a, SEXP bitWidth ) {
 	for (i=0; i<nlonger; )			          \
 		for (j=0; j<nshorter; j++ ) {             \
 			                                  \
-			if (!R_FINITE(shorter[j]) || !R_FINITE(longer[i]) || logb(shorter[j])>52 || logb(longer[i])>52 ) *(t++)=NA_REAL ; \
+			if (!R_FINITE(shorter[j]) || !R_FINITE(longer[i]) || logb(shorter[j])>31 || logb(longer[i])>31 ) { *(t++)=NA_REAL ; i++ ;} \
                                                           \
-	    		else *(t++) =(double) ( (long long) shorter[j] __OP__ (long long ) longer[i++] ) ; \
+	    		else *(t++) =(double) ( (unsigned long) shorter[j] __OP__ (unsigned long ) longer[i++] ) ; \
+			if (! (i<nlonger) ) break ; \
 		}                                         \
                                                           \
 	UNPROTECT(3) ;                                    \
@@ -117,7 +119,8 @@ SEXP bitXor(SEXP a, SEXP b) {
                                                        \
 	n=na>nb ? na : nb ;                            \
                                                        \
-	if (!na || !nb || n%na || n%nb ) n=na=nb=0 ;   \
+	if (!na || !nb ) n=na=nb=0 ;   \
+	else if (n%na || n%nb )  warning("longer object length is not a multiple of shorter object length\n") ; \
                                                        \
 	PROTECT (aAb= NEW_NUMERIC(n) ) ;               \
 	xaAb=NUMERIC_POINTER(aAb) ;                    \
@@ -127,8 +130,9 @@ SEXP bitXor(SEXP a, SEXP b) {
 		for (i=0; i< na; ) {                   \
 			for (j=0; j< nb; j++ ) {       \
                                                        \
-				if ( !R_FINITE(xa[i]) || xb[j]==NA_INTEGER || logb(xa[i]) > 52 ) *(xaAb++) = NA_REAL ; \
-				else *(xaAb++)=(double) ( (long long) xa[i++] __OP__ (xb[j] & 63 ) ) ; \
+				if ( !R_FINITE(xa[i]) || xb[j]==NA_INTEGER || logb(xa[i]) > 31 ) { *(xaAb++) = NA_REAL ; i++ ; } \
+				else *(xaAb++)=(double) ( (unsigned long) xa[i++] __OP__ (xb[j] & 31 ) ) ; \
+				if (! (i<na) ) break ; \
 			}                              \
 		}                                      \
 	}                                              \
@@ -136,8 +140,9 @@ SEXP bitXor(SEXP a, SEXP b) {
 		for (i=0; i< nb; )                     \
 			for (j=0; j< na; j++ ) {       \
                                                        \
-				if ( !R_FINITE(xa[j]) || xb[i]==NA_INTEGER || logb(xa[j]) > 52 ) *(xaAb++) = NA_REAL ; \
-				else *(xaAb++)=(double) ( (long long) xa[j] __OP__ (xb[i++] & 63 ) ) ; \
+				if ( !R_FINITE(xa[j]) || xb[i]==NA_INTEGER || logb(xa[j]) > 31 ) { *(xaAb++) = NA_REAL ; i++ ; } \
+				else *(xaAb++)=(double) ( (unsigned long) xa[j] __OP__ (xb[i++] & 31 ) ) ; \
+				if (! (i<nb) ) break ; \
 			}                              \
     	}                                              \
 	UNPROTECT(3) ;                                 \

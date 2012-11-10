@@ -67,6 +67,81 @@ stopifnot( all.equal(cksum(b),d))
 
 # verify bit shifts:
 
-stopifnot( sum(2^(0:50)-bitShiftL(1,0:50))==0)
-stopifnot( sum(2^(50:0)-bitShiftR(2^50,50:0))==0)
+stopifnot( identical(2^(0:31), bitShiftL(1,0:31)) )
+stopifnot( identical(2^(31:0),bitShiftR(2^31,0:31)) )
+
+# test boundary value behavior:  +/- Inf, NA, NaN, 2^32:
+
+
+a<-round(runif(500)*2^33)
+b<-which(a<4294967296)
+
+stopifnot(identical(bitAnd(a,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitAnd(a,a)[b],a[b]))
+stopifnot(identical(bitOr(a,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitOr(a,a)[b],a[b]))
+stopifnot(identical(bitXor(a,0)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitXor(a,0)[b],a[b]))
+stopifnot(identical(bitXor(0,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitXor(0,a)[b],a[b]))
+stopifnot(identical(bitFlip(bitFlip(a))[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitFlip(bitFlip(a))[b],bitAnd(a,2^32-1)[b]))
+stopifnot(identical(bitShiftR(a,runif(10)*32)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitShiftL(a,runif(10)*32)[-b],as.numeric(rep(NA,length(a))[-b])))
+
+a[-b]<-1/0
+stopifnot(identical(bitAnd(a,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitAnd(a,a)[b],a[b]))
+stopifnot(identical(bitOr(a,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitOr(a,a)[b],a[b]))
+stopifnot(identical(bitXor(a,0)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitXor(a,0)[b],a[b]))
+stopifnot(identical(bitXor(0,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitXor(0,a)[b],a[b]))
+stopifnot(identical(bitFlip(bitFlip(a))[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitFlip(bitFlip(a))[b],bitAnd(a,2^32-1)[b]))
+stopifnot(identical(bitShiftR(a,runif(10)*32)[-b],as.numeric(rep(NA,length(a))[- b])))
+stopifnot(identical(bitShiftL(a,runif(10)*32)[-b],as.numeric(rep(NA,length(a))[- b])))
+
+a[-b]<--1/0
+stopifnot(identical(bitAnd(a,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitAnd(a,a)[b],a[b]))
+stopifnot(identical(bitOr(a,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitOr(a,a)[b],a[b]))
+stopifnot(identical(bitXor(a,0)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitXor(a,0)[b],a[b]))
+stopifnot(identical(bitXor(0,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitXor(0,a)[b],a[b]))
+stopifnot(identical(bitFlip(bitFlip(a))[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitFlip(bitFlip(a))[b],bitAnd(a,2^32-1)[b]))
+stopifnot(identical(bitShiftR(a,runif(10)*32)[-b],as.numeric(rep(NA,length(a))[- b])))
+stopifnot(identical(bitShiftL(a,runif(10)*32)[-b],as.numeric(rep(NA,length(a))[- b])))
+
+a[-b]<-suppressWarnings(sqrt(-1))
+stopifnot(identical(bitAnd(a,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitAnd(a,a)[b],a[b]))
+stopifnot(identical(bitOr(a,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitOr(a,a)[b],a[b]))
+stopifnot(identical(bitXor(a,0)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitXor(a,0)[b],a[b]))
+stopifnot(identical(bitXor(0,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitXor(0,a)[b],a[b]))
+stopifnot(identical(bitFlip(bitFlip(a))[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitFlip(bitFlip(a))[b],bitAnd(a,2^32-1)[b]))
+stopifnot(identical(bitShiftR(a,runif(10)*32)[-b],as.numeric(rep(NA,length(a))[- b])))
+stopifnot(identical(bitShiftL(a,runif(10)*32)[-b],as.numeric(rep(NA,length(a))[- b])))
+
+a[-b]<-NA
+stopifnot(identical(bitAnd(a,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitAnd(a,a)[b],a[b]))
+stopifnot(identical(bitOr(a,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitOr(a,a)[b],a[b]))
+stopifnot(identical(bitXor(a,0)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitXor(a,0)[b],a[b]))
+stopifnot(identical(bitXor(0,a)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitXor(0,a)[b],a[b]))
+stopifnot(identical(bitFlip(bitFlip(a))[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitFlip(bitFlip(a))[b],bitAnd(a,2^32-1)[b]))
+stopifnot(identical(bitShiftR(a,runif(10)*32)[-b],as.numeric(rep(NA,length(a))[-b])))
+stopifnot(identical(bitShiftL(a,runif(10)*32)[-b],as.numeric(rep(NA,length(a))[-b])))
 
