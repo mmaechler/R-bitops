@@ -1,5 +1,6 @@
-# Default NAMESPACE created by R
-# Remove the previous line if you edit this file
+## Re-written 2012-11-03 B. D. Ripley
 
-# Export all names
-exportPattern(".")
+useDynLib(bitops)
+
+export(bitFlip, bitAnd, bitOr, bitXor, bitShiftL, bitShiftR, cksum)
+

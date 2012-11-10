@@ -7,8 +7,8 @@
 */
 SEXP bitFlip(SEXP a, SEXP bitWidth ) {
 	int i, n, *xbitWidth;
-	unsigned long  mask ;
-	unsigned long tmp ;
+	unsigned int  mask ;
+	unsigned int tmp ;
 	double *xa, *xaflip ;
 	SEXP aflip ;
 	
@@ -22,14 +22,14 @@ SEXP bitFlip(SEXP a, SEXP bitWidth ) {
 	xaflip=NUMERIC_POINTER(aflip) ;
 	xbitWidth=INTEGER_POINTER(bitWidth)  ;
 
-	mask = ( unsigned long ) -1 >> (32 - *xbitWidth)  ;
+	mask = ( unsigned int ) -1 >> (32 - *xbitWidth)  ;
 
 
 	for (i=0; i<n; i++ ) {
 		if ( !R_FINITE(xa[i]) || logb(xa[i])>31 ) xaflip[i]=NA_REAL ;
 
 		else {
-			tmp=(unsigned long) xa[i] ;
+			tmp=(unsigned int) xa[i] ;
 			xaflip[i]=(double) ( ~tmp & mask ) ; 
 		}
 	}
@@ -76,7 +76,7 @@ SEXP bitFlip(SEXP a, SEXP bitWidth ) {
 			                                  \
 			if (!R_FINITE(shorter[j]) || !R_FINITE(longer[i]) || logb(shorter[j])>31 || logb(longer[i])>31 ) { *(t++)=NA_REAL ; i++ ;} \
                                                           \
-	    		else *(t++) =(double) ( (unsigned long) shorter[j] __OP__ (unsigned long ) longer[i++] ) ; \
+	    		else *(t++) =(double) ( (unsigned int) shorter[j] __OP__ (unsigned int ) longer[i++] ) ; \
 			if (! (i<nlonger) ) break ; \
 		}                                         \
                                                           \
@@ -131,7 +131,7 @@ SEXP bitXor(SEXP a, SEXP b) {
 			for (j=0; j< nb; j++ ) {       \
                                                        \
 				if ( !R_FINITE(xa[i]) || xb[j]==NA_INTEGER || logb(xa[i]) > 31 ) { *(xaAb++) = NA_REAL ; i++ ; } \
-				else *(xaAb++)=(double) ( (unsigned long) xa[i++] __OP__ (xb[j] & 31 ) ) ; \
+				else *(xaAb++)=(double) ( (unsigned int) xa[i++] __OP__ (xb[j] & 31 ) ) ; \
 				if (! (i<na) ) break ; \
 			}                              \
 		}                                      \
@@ -141,7 +141,7 @@ SEXP bitXor(SEXP a, SEXP b) {
 			for (j=0; j< na; j++ ) {       \
                                                        \
 				if ( !R_FINITE(xa[j]) || xb[i]==NA_INTEGER || logb(xa[j]) > 31 ) { *(xaAb++) = NA_REAL ; i++ ; } \
-				else *(xaAb++)=(double) ( (unsigned long) xa[j] __OP__ (xb[i++] & 31 ) ) ; \
+				else *(xaAb++)=(double) ( (unsigned int) xa[j] __OP__ (xb[i++] & 31 ) ) ; \
 				if (! (i<nb) ) break ; \
 			}                              \
     	}                                              \
