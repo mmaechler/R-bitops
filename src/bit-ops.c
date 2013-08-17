@@ -5,36 +5,28 @@
 /*
 	bitwise complement for use with .Call to bitFlip masked to bitWidth
 */
-SEXP bitFlip(SEXP a, SEXP bitWidth ) {
-	int i, n, *xbitWidth;
-	unsigned int  mask ;
-	unsigned int tmp ;
-	double *xa, *xaflip ;
-	SEXP aflip ;
-	
-	PROTECT (a = AS_NUMERIC(a) ) ;
-	PROTECT (bitWidth = AS_INTEGER(bitWidth) ) ;
+SEXP bitFlip(SEXP a, SEXP bitWidth )
+{
+    PROTECT (a = AS_NUMERIC(a) ) ;
+    PROTECT (bitWidth = AS_INTEGER(bitWidth) ) ;
+    int n = LENGTH(a);
+    int *xbitWidth = INTEGER_POINTER(bitWidth);
+    double *xa  = NUMERIC_POINTER(a);
+    unsigned int mask = ( unsigned int ) -1 >> (32 - *xbitWidth);
+    SEXP aflip = PROTECT(NEW_NUMERIC(n));
+    double *xaflip = NUMERIC_POINTER(aflip);
 
-	n=LENGTH(a) ;
-	PROTECT (aflip = NEW_NUMERIC(n) ) ;
-
-	xa=NUMERIC_POINTER(a) ;
-	xaflip=NUMERIC_POINTER(aflip) ;
-	xbitWidth=INTEGER_POINTER(bitWidth)  ;
-
-	mask = ( unsigned int ) -1 >> (32 - *xbitWidth)  ;
-
-
-	for (i=0; i<n; i++ ) {
-		if ( !R_FINITE(xa[i]) || logb(xa[i])>31 ) xaflip[i]=NA_REAL ;
-
-		else {
-			tmp=(unsigned int) xa[i] ;
-			xaflip[i]=(double) ( ~tmp & mask ) ; 
-		}
+    for (int i=0; i<n; i++ ) {
+	if ( !R_FINITE(xa[i]) || logb(xa[i])>31 )
+	    xaflip[i]=NA_REAL ;
+	else {
+	    // in case of a negative, cast twice;
+	    unsigned int tmp = xa[i] < 0 ? (int) xa[i] : (unsigned) xa[i];
+	    xaflip[i]=(double) ( ~tmp & mask ) ;
 	}
-	UNPROTECT(3) ;
-	return (aflip) ;
+    }
+    UNPROTECT(3) ;
+    return (aflip) ;
 }
 
 

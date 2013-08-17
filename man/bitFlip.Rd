@@ -2,7 +2,8 @@
 \alias{bitFlip}
 \title{Binary Flip (Not) Operator}
 \description{
-  Binary flop (not) operator.
+  The binary flip (not) operator, \code{bitFlip(a, w)}, \dQuote{flips every
+    bit} of \code{a} up to the \code{w}-th bit.
 }
 \usage{
 bitFlip(a, bitWidth=32)
@@ -22,7 +23,7 @@ bitFlip(a, bitWidth=32)
 \examples{
  stopifnot(
   bitFlip(-1) == 0,
-  bitFlip(0 ) == 4294967295,
+  bitFlip(0 ) == 2^32 - 1,
   bitFlip(0, bitWidth=8) == 255
  )
 }

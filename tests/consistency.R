@@ -3,6 +3,8 @@ library(bitops)
 i7 <- 0:127
 ri7 <- bitFlip(i7)
 stopifnot(identical(bitAnd(i7,ri7),rep(0,length(i7))),
+          ri7+i7 == 2^32-1,
+          ## flipping the bits twice should be the identity (modulo overflow):
           identical(i7, as.integer(bitFlip(ri7))),
           bitAnd(i7, ri7) == 0,
 
