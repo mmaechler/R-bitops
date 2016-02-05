@@ -22,12 +22,13 @@ bitXor(a, b)
   not finite.
 }
 \value{
-  numeric vector of maximum length of \code{a} or \code{b}.
+  non-negative integer valued numeric vector of maximum length of \code{a} or \code{b}.
 }
 %\references{ ~put references to the literature/web site here ~ }
 \author{Steve Dutky}
 \seealso{\code{\link{bitFlip}}, \code{\link{bitShiftL}}; further,
-  \code{\link{cksum}}.}
+  \code{\link{cksum}}.
+}
 \examples{
 	bitAnd(15,7) == 7
 	bitOr(15,7) == 15
