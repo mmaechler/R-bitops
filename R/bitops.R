@@ -13,8 +13,12 @@ bitFlip <- function(a,bitWidth=32)
     .Call("bitFlip", a, bitWidth, PACKAGE = "bitops")
 }
 
-
 bitAnd <- function(a, b)
+{
+    .Call("bitAnd", a, b, PACKAGE = "bitops")
+}
+
+`%&%` <- function(a, b)
 {
     .Call("bitAnd", a, b, PACKAGE = "bitops")
 }
@@ -24,13 +28,27 @@ bitOr <- function(a, b)
     .Call("bitOr", a, b, PACKAGE = "bitops")
 }
 
+`%|%` <- function(a, b)
+{
+    .Call("bitOr", a, b, PACKAGE = "bitops")
+}
+
 bitXor <- function(a, b)
 {
     .Call("bitXor", a, b, PACKAGE = "bitops")
 }
 
+`%^%` <- function(a, b)
+{
+    .Call("bitXor", a, b, PACKAGE = "bitops")
+}
 
 bitShiftL <- function(a, b)
+{
+    .Call("bitShiftL", a, b, PACKAGE = "bitops")
+}
+
+`%<<%` <- function(a, b)
 {
     .Call("bitShiftL", a, b, PACKAGE = "bitops")
 }
@@ -40,6 +58,10 @@ bitShiftR <- function(a, b)
     .Call("bitShiftR", a, b, PACKAGE = "bitops")
 }
 
+`%>>%` <- function(a, b)
+{
+    .Call("bitShiftR", a, b, PACKAGE = "bitops")
+}
 
 cksum <- function(a)
 {
