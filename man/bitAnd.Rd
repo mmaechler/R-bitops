@@ -1,7 +1,10 @@
 \name{bitAnd}
 \alias{bitAnd}
+\alias{\%&\%}
 \alias{bitOr}
+\alias{\%|\%}
 \alias{bitXor}
+\alias{\%^\%}
 \title{Bitwise And, Or and Xor Operations}
 \description{
   Bitwise operations, \sQuote{and} (\code{\link{&}}),
@@ -9,8 +12,11 @@
 }
 \usage{
 bitAnd(a, b)
+a \%&\% b
 bitOr (a, b)
+a \%|\% b
 bitXor(a, b)
+a \%^\% b
 }
 \arguments{
   \item{a,b}{numeric vectors of compatible length.}
@@ -31,9 +37,13 @@ bitXor(a, b)
 }
 \examples{
 	bitAnd(15,7) == 7
+    15 \%&\% 7 == 7
 	bitOr(15,7) == 15
+    15 \%&\% 7 == 15
 	bitXor(15,7) == 8
+    15 \%^\% 7 == 8
 	bitOr(-1,0) == 4294967295
+    -1 \%|\% 0 == 4294967295
 }
 \keyword{arith}
 \keyword{utilities}
