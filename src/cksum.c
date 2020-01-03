@@ -1,7 +1,7 @@
-#include <R.h>
 #include <sys/types.h>
 #include <unistd.h>
 
+#include "bit-ops.h"
 
 static const unsigned int crctab[] = {
 	0x0,

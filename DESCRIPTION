@@ -1,6 +1,6 @@
 Package: bitops
 Version: 1.0-7
-Date: 2016-02-05
+Date: 2020-01-03
 Author: S original by Steve Dutky <sdutky@terpalum.umd.edu> initial R
         port and extensions by Martin Maechler; revised and modified
         by Steve Dutky

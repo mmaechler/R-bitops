@@ -10,46 +10,44 @@
 
 bitFlip <- function(a,bitWidth=32)
 {
-    .Call("bitFlip", a, bitWidth, PACKAGE = "bitops")
+    .Call(C_bitFlip, a, bitWidth)
 }
 
 
 bitAnd <- function(a, b)
 {
-    .Call("bitAnd", a, b, PACKAGE = "bitops")
+    .Call(C_bitAnd, a, b)
 }
 
 bitOr <- function(a, b)
 {
-    .Call("bitOr", a, b, PACKAGE = "bitops")
+    .Call(C_bitOr, a, b)
 }
 
 bitXor <- function(a, b)
 {
-    .Call("bitXor", a, b, PACKAGE = "bitops")
+    .Call(C_bitXor, a, b)
 }
 
 
 bitShiftL <- function(a, b)
 {
-    .Call("bitShiftL", a, b, PACKAGE = "bitops")
+    .Call(C_bitShiftL, a, b)
 }
 
 bitShiftR <- function(a, b)
 {
-    .Call("bitShiftR", a, b, PACKAGE = "bitops")
+    .Call(C_bitShiftR, a, b)
 }
 
 
 cksum <- function(a)
 {
     x <- nchar(as.character(a))*0
-    x <- x + .C("cksum",
+    x <- x + .C(C_cksum, # ../src/cksum.c
                 length(a), as.character(a),
                 val = as.numeric(x),
-		NAOK=TRUE,
-		DUP=TRUE,
-                PACKAGE= "bitops")$val
+		NAOK=TRUE)$val
     x[is.na(a)] <- NA
     x
 }
