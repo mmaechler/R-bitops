@@ -2,6 +2,10 @@
 
 #include "bit-ops.h"
 
+// in case of a negative, cast twice;
+#define R_2_UINT(X, I) unsigned int I = (X) < 0 ? (int) (X) : (unsigned) (X)
+#define _2_UINT_(X)   (unsigned int)   ((X) < 0 ? (int) (X) : X)
+
 /*
 	bitwise complement for use with .Call to bitFlip masked to bitWidth
 */
@@ -20,8 +24,7 @@ SEXP bitFlip(SEXP a, SEXP bitWidth )
 	if ( !R_FINITE(xa[i]) || logb(xa[i])>31 )
 	    xaflip[i]=NA_REAL ;
 	else {
-	    // in case of a negative, cast twice;
-	    unsigned int tmp = xa[i] < 0 ? (int) xa[i] : (unsigned) xa[i];
+	    R_2_UINT(xa[i], tmp);
 	    xaflip[i]=(double) ( ~tmp & mask ) ;
 	}
     }
@@ -39,19 +42,13 @@ SEXP bitFlip(SEXP a, SEXP bitWidth )
 		       AND OR  XOR
 */
 #define bit2op_BODY(__OP__)					\
-    int i, j, nshorter, nlonger ;				\
-    double *shorter, *longer, *t ;				\
-    SEXP aAb ;							\
-								\
     PROTECT (a = coerceVector(a,REALSXP) ) ;			\
     PROTECT (b = coerceVector(b,REALSXP) ) ;			\
 								\
-    nlonger=LENGTH(a) ;						\
-    longer=REAL(a) ;						\
-    nshorter=LENGTH(b) ;					\
-    shorter=REAL(b) ;						\
+    double *t, *longer = REAL(a),   *shorter = REAL(b)  ;	\
+    int     i, nlonger = LENGTH(a), nshorter = LENGTH(b);	\
 								\
-    if ( nshorter > nlonger ) {					\
+    if ( nshorter > nlonger ) {	/* swap */			\
 	i=nshorter ; nshorter=nlonger; nlonger=i ;		\
 	t=shorter ;  shorter=longer ;  longer= t ;		\
     }								\
@@ -59,21 +56,20 @@ SEXP bitFlip(SEXP a, SEXP bitWidth )
     if ( !nshorter || !nlonger ) nlonger=0 ;			\
     else if ( nlonger % nshorter ) warning("longer object length is not a multiple of shorter object length\n") ; \
 								\
-    PROTECT (aAb = allocVector(REALSXP,nlonger) ) ;		\
-    t=REAL(aAb) ;						\
+    SEXP aAb = PROTECT(allocVector(REALSXP, nlonger));		\
+    t = REAL(aAb);						\
 								\
-    for (i=0; i < nlonger; )					\
-	for (j=0; j < nshorter; j++ ) {					\
+    for (int i=0; i < nlonger; )				\
+	for (int j=0; j < nshorter; j++ ) {				\
 	    if (!R_FINITE(shorter[j]) || !R_FINITE(longer[i]) ||	\
 		logb(shorter[j]) > 31 || logb(longer[i]) > 31) {	\
 									\
 		*(t++)= NA_REAL;					\
-		i++;							\
 	    }								\
 	    else							\
-		*(t++) = (double) ((unsigned int) shorter[j] __OP__	\
-		                   (unsigned int ) longer[i++] ) ;	\
-	    if (!(i < nlonger)) break ;					\
+		*(t++) = (double) (_2_UINT_(shorter[j]) __OP__		\
+		                   _2_UINT_(longer [i]) ) ;		\
+	    if (!(++i < nlonger)) break ;				\
 	}								\
 									\
     UNPROTECT(3) ;							\
@@ -103,45 +99,41 @@ SEXP bitXor(SEXP a, SEXP b) {
 	operands are coerced to integer, but left at their original lengths
 */
 #define bitshift_BODY(__OP__)						\
-    int i, j, na, nb, n, *xb ;						\
-    double *xa, *xaAb;							\
-    SEXP aAb ;								\
 									\
     PROTECT (a = coerceVector(a,REALSXP) ) ;				\
-    PROTECT (b = coerceVector(b,INTSXP) ) ;				\
+    PROTECT (b = coerceVector(b, INTSXP) ) ;				\
 									\
-    na=LENGTH(a) ;							\
-    xa=REAL(a) ;							\
-    nb=LENGTH(b) ;							\
-    xb=INTEGER(b) ;							\
+    double *xa = REAL(a);	int na=LENGTH(a);			\
+    int* xb = INTEGER(b);	int nb=LENGTH(b);			\
 									\
-    n= na>nb ? na : nb ;						\
+    int n = na>nb ? na : nb ;						\
 									\
-    if (!na || !nb ) n=na=nb=0 ;					\
+    if (!na || !nb ) n = na = nb = 0 ;					\
     else if (n%na || n%nb )  warning("longer object length is not a multiple of shorter object length\n") ; \
 									\
-    PROTECT (aAb= allocVector(REALSXP,n) ) ;				\
-    xaAb=REAL(aAb) ;							\
+    SEXP aAb = PROTECT(allocVector(REALSXP, n));			\
+    double *xaAb = REAL(aAb);						\
 									\
-    if (na > nb ) {							\
-	for (i=0; i< na; ) {						\
-	    for (j=0; j< nb; j++ ) {					\
+    int i, j;								\
+    if (na > nb) {							\
+	for (i=0; i < na; ) {						\
+	    for (j=0; j < nb; j++ ) {					\
 		if ( !R_FINITE(xa[i]) || xb[j]==NA_INTEGER || logb(xa[i]) > 31 ) { \
-		    *(xaAb++) = NA_REAL ; i++ ;				\
+		    *(xaAb++) = NA_REAL ;				\
 		}							\
-		else *(xaAb++)=(double) ( (unsigned int) xa[i++] __OP__ (xb[j] & 31 ) ) ; \
-		if (! (i<na) ) break ;					\
+		else *(xaAb++)=(double) (_2_UINT_(xa[i]) __OP__ (xb[j] & 31 ) ) ; \
+		if (! (++i < na) ) break ;				\
 	    }								\
 	}								\
     }									\
     else {								\
-	for (i=0; i< nb; )						\
-	    for (j=0; j< na; j++ ) {					\
+	for (i=0; i < nb; )						\
+	    for (j=0; j < na; j++ ) {					\
 		if ( !R_FINITE(xa[j]) || xb[i]==NA_INTEGER || logb(xa[j]) > 31 ) { \
-		    *(xaAb++) = NA_REAL ; i++;				\
+		    *(xaAb++) = NA_REAL ;				\
 		}							\
-		else *(xaAb++)=(double) ( (unsigned int) xa[j] __OP__ (xb[i++] & 31 ) ) ; \
-		if (! (i<nb) ) break ;					\
+		else *(xaAb++)=(double) (_2_UINT_(xa[j]) __OP__ (xb[i] & 31 )) ; \
+		if (! (++i < nb) ) break ;				\
 	    }								\
     }									\
     UNPROTECT(3) ;							\
