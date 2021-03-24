@@ -1,8 +1,21 @@
-2016-02-05  Martin Maechler  <maechler@stat.math.ethz.ch>
+2021-03-24  Martin Maechler  <maechler@stat.math.ethz.ch>
 
+	* DESCRIPTION (Date, URL): cosmetic before finally releasing
+
+2020-01-03  Martin Maechler  <maechler@stat.math.ethz.ch>
 	* DESCRIPTION (Version): 1.0-7
-	* man/bitShiftL.Rd: document that we effectively *rotate* left and
-	right; more simple/nice examples.
+	* src/bitops.c, src/init.c: use registration; fix UBSAN detected bug
+	* man/*.Rd: more examples
+
+2013-08-17  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 1.0-6
+	* src/bit-ops.c: fix (Redhat package) bug.
+
+2012-11-10  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 1.0-5, New maintainer
+	* man/*.Rd: some cosmetics, notably '\seealso{}'s and '\link{}'s.
 
 2005-01-28  Steve Dutky  <sdutky@terpalum.umd.edu>
 	* DESCRIPTION (Version): 1.0-4
