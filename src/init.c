@@ -4,11 +4,11 @@
 
 #include "bit-ops.h"
 
-#define CDEF(name)  {#name, (DL_FUNC) &name, sizeof(name ## _t)/sizeof(name ## _t[0]), name ##_t}
+#define CDEF(name)  {#name, (DL_FUNC) &name, sizeof(name ## _typ)/sizeof(name ## _typ[0]), name ##_typ}
 
 #define CALLDEF(name, n)  {#name, (DL_FUNC) &name, n}
 
-static R_NativePrimitiveArgType cksum_t[3] = {
+static R_NativePrimitiveArgType cksum_typ[3] = {
     INTSXP, STRSXP, REALSXP
 };
 
