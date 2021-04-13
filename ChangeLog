@@ -1,10 +1,14 @@
+2021-03-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* src/bit-ops.c (R_2_UINT_): cast even more, now via _2_UINT_()
+
 2021-03-24  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* DESCRIPTION (Date, URL): cosmetic before finally releasing
 
 2020-01-03  Martin Maechler  <maechler@stat.math.ethz.ch>
 	* DESCRIPTION (Version): 1.0-7
-	* src/bitops.c, src/init.c: use registration; fix UBSAN detected bug
+	* src/bit-ops.c, src/init.c: use registration; fix UBSAN detected bug
 	* man/*.Rd: more examples
 
 2013-08-17  Martin Maechler  <maechler@stat.math.ethz.ch>

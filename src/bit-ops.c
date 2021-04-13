@@ -3,8 +3,8 @@
 #include "bit-ops.h"
 
 // in case of a negative, cast twice;
-#define R_2_UINT(X, I) unsigned int I = (X) < 0 ? (int) (X) : (unsigned) (X)
-#define _2_UINT_(X)   (unsigned int)   ((X) < 0 ? (int) (X) : X)
+#define _2_UINT_(X)   (unsigned int) ((X) < 0 ? ((int)X) : (X))
+#define R_2_UINT(X, I) unsigned int I = _2_UINT_(X)
 
 /*
 	bitwise complement for use with .Call to bitFlip masked to bitWidth
