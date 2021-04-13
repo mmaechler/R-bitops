@@ -14,27 +14,32 @@ bitFlip <- function(a,bitWidth=32)
 }
 
 
+`%&%` <-
 bitAnd <- function(a, b)
 {
     .Call(C_bitAnd, a, b)
 }
 
+
+`%|%` <-
 bitOr <- function(a, b)
 {
     .Call(C_bitOr, a, b)
 }
 
+`%^%` <-
 bitXor <- function(a, b)
 {
     .Call(C_bitXor, a, b)
 }
 
-
+`%<<%` <-
 bitShiftL <- function(a, b)
 {
     .Call(C_bitShiftL, a, b)
 }
 
+`%>>%` <-
 bitShiftR <- function(a, b)
 {
     .Call(C_bitShiftR, a, b)

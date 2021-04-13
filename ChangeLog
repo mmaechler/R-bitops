@@ -1,3 +1,9 @@
+2021-04-13  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* From Dan Robertson (dlrobertson) via GH PR #3, Feb.2016:
+	Introduce C-style  "operators":
+	"%&%", "%|%", "%^%", "%<<%", "%>>%"
+
 2021-03-30  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* src/bit-ops.c (R_2_UINT_): cast even more, now via _2_UINT_()

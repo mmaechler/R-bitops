@@ -3,4 +3,4 @@
 useDynLib(bitops, .registration = TRUE, .fixes = "C_")
 
 export(bitFlip, bitAnd, bitOr, bitXor, bitShiftL, bitShiftR, cksum)
-
+export("%&%", "%|%", "%^%", "%<<%", "%>>%")

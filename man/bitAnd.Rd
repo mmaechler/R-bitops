@@ -3,14 +3,20 @@
 \alias{bitAnd}
 \alias{bitOr}
 \alias{bitXor}
+\alias{\%&\%}
+\alias{\%|\%}
+\alias{\%^\%}
 \description{
   Bitwise operations, \sQuote{and} (\code{\link{&}}),
   \sQuote{or} (\code{\link{|}}), and \sQuote{Xor} (\code{\link{xor}}).
 }
 \usage{
 bitAnd(a, b)
+a \%&\% b
 bitOr (a, b)
+a \%|\% b
 bitXor(a, b)
+a \%^\% b
 }
 \arguments{
   \item{a,b}{numeric vectors of compatible length, each treated as 32 bit \dQuote{strings}.}
@@ -26,15 +32,15 @@ bitXor(a, b)
 \value{
   non-negative integer valued numeric vector of maximum length of \code{a} or \code{b}.
 }
-\author{Steve Dutky}
+\author{Steve Dutky; idea for operators: Dan L Robertson}
 \seealso{\code{\link{bitFlip}}, \code{\link{bitShiftL}}; further,
   \code{\link{cksum}}.
 }
 \examples{
-	bitAnd(15,7) == 7
-	bitOr(15,7) == 15
-	bitXor(15,7) == 8
-	bitOr(-1,0) == 4294967295
+bitAnd(15,7) == 7 ;  identical(15 \%&\% 7, bitAnd(15, 7))
+bitOr(15,7) == 15 ;  identical(15 \%|\% 7, bitOr (15, 7))
+bitXor(15,7) == 8 ;  identical(15 \%^\% 7, bitXor(15,7))
+bitOr(-1,0) == 4294967295 ; identical(-1 \%|\% 0, bitOr(-1,0))
 }
 \keyword{arith}
 \keyword{utilities}

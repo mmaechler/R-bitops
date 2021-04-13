@@ -1,6 +1,8 @@
 \name{bitShiftL}
 \alias{bitShiftL}
 \alias{bitShiftR}
+\alias{\%<<\%}
+\alias{\%>>\%}
 \title{Bitwise Shift Operator (to the Left or Right)}
 \description{
   These functions shift integers bitwise to the left or to the right,
@@ -9,7 +11,9 @@
 }
 \usage{
 bitShiftL(a, b)
+a \%<<\% b
 bitShiftR(a, b)
+a \%>>\% b
 }
 \arguments{
   \item{a}{numeric vector (integer valued), to be shifted.}
@@ -33,6 +37,11 @@ bitShiftR(a, b)
 \examples{
  bitShiftL(0:4, 1) # 0 2 4 6 8
  bitShiftL(0:3, 2) # 0 4 8 12
+
+ stopifnot(exprs = {
+     identical(bitShiftL(0:4, 1), 0:4 \%<<\% 1)
+     identical(bitShiftR(0:3, 2), 0:3 \%>>\% 2)
+})
 
  bitShiftR(0:7, 1) # 0 0  1 1  2 2  3 3 <==> N \%/\% 2
  bitShiftR(0:7, 2) # 0 0 0 0  1 1 1 1   <==> N \%/\% 4
