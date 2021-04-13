@@ -3,7 +3,8 @@
 #include "bit-ops.h"
 
 // in case of a negative, cast twice;
-#define _2_UINT_(X)   (unsigned int) ((X) < 0 ? ((int)X) : (X))
+#define I_2_UINT(I)   (unsigned int) ((I) < 0 ? (I + UINT_MAX +1) : (I))
+#define _2_UINT_(X)   (unsigned int) ((X) < 0 ?  I_2_UINT((int)X) : (X))
 #define R_2_UINT(X, I) unsigned int I = _2_UINT_(X)
 
 /*
@@ -121,7 +122,7 @@ SEXP bitXor(SEXP a, SEXP b) {
 		if ( !R_FINITE(xa[i]) || xb[j]==NA_INTEGER || logb(xa[i]) > 31 ) { \
 		    *(xaAb++) = NA_REAL ;				\
 		}							\
-		else *(xaAb++)=(double) (_2_UINT_(xa[i]) __OP__ (xb[j] & 31 ) ) ; \
+		else *(xaAb++)=(double) (_2_UINT_(xa[i]) __OP__ I_2_UINT(xb[j] & 31 ) ) ; \
 		if (! (++i < na) ) break ;				\
 	    }								\
 	}								\
@@ -132,7 +133,7 @@ SEXP bitXor(SEXP a, SEXP b) {
 		if ( !R_FINITE(xa[j]) || xb[i]==NA_INTEGER || logb(xa[j]) > 31 ) { \
 		    *(xaAb++) = NA_REAL ;				\
 		}							\
-		else *(xaAb++)=(double) (_2_UINT_(xa[j]) __OP__ (xb[i] & 31 )) ; \
+		else *(xaAb++)=(double) (_2_UINT_(xa[j]) __OP__ I_2_UINT(xb[i] & 31 )) ; \
 		if (! (++i < nb) ) break ;				\
 	    }								\
     }									\

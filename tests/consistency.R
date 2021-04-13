@@ -13,31 +13,37 @@ stopifnot(identical(bitAnd(i7,ri7), rep(0,length(i7))),
           bitXor(15,17) == 30
           )
 
-for(N in 1:200) {
+IMAX <- 2^31-1
+set.seed(1959)
+system.time( for(N in 1:5000) {
+    if(N %% 20 == 0)
+        i7 <- sample.int(IMAX, size=128)
     j7 <- sample(i7)
-    ## Commutative Law:
-    stopifnot(identical(bitOr (i7, j7), bitOr (j7, i7)),
-              identical(bitAnd(i7, j7), bitAnd(j7, i7)),
-              identical(bitXor(i7, j7), bitXor(j7, i7)))
-    ## Xor "+" And  == Or :
-    stopifnot(identical(bitOr(i7, j7),
-                        bitOr(bitXor(i7,j7), bitAnd(i7,j7))))
-    ## Logic:  !(A & B)  <->  (!A) | (!B)
-    stopifnot(identical(bitFlip(bitAnd(i7, j7)),
-                        bitOr(bitFlip(i7), bitFlip(j7))))
-    ##         !(A | B)  <->  (!A) & (!B)
-    stopifnot(identical(bitFlip(bitOr(i7, j7)),
-                        bitAnd(bitFlip(i7), bitFlip(j7))))
-    ## Associative Law:
-    k7 <- sample(j7)
-    stopifnot(identical(bitOr(bitOr(i7, j7), k7),
-                        bitOr(i7, bitOr(j7, k7))),
-              identical(bitAnd(bitAnd(i7, j7), k7),
-                        bitAnd(i7, bitAnd(j7, k7))),
-              identical(bitXor(bitXor(i7, j7), k7),
-                        bitXor(i7, bitXor(j7, k7))))
-}
-
+    stopifnot(exprs = {
+        ## Commutative Law:
+        identical(bitOr (i7, j7), bitOr (j7, i7))
+        identical(bitAnd(i7, j7), bitAnd(j7, i7))
+        identical(bitXor(i7, j7), bitXor(j7, i7))
+        ## Xor "+" And  == Or :
+        identical(bitOr(i7, j7),
+                  bitOr(bitXor(i7,j7), bitAnd(i7,j7)))
+        ## Logic:  !(A & B)  <->  (!A) | (!B)
+        identical(bitFlip(bitAnd(i7, j7)),
+                  bitOr(bitFlip(i7), bitFlip(j7)))
+        ##         !(A | B)  <->  (!A) & (!B)
+        identical(bitFlip(bitOr(i7, j7)),
+                  bitAnd(bitFlip(i7), bitFlip(j7)))
+        ##
+        ## Associative Law:
+        length(k7 <- sample(j7)) == length(j7)
+        identical(bitOr(bitOr(i7, j7), k7),
+                  bitOr(i7, bitOr(j7, k7)))
+        identical(bitAnd(bitAnd(i7, j7), k7),
+                  bitAnd(i7, bitAnd(j7, k7)))
+        identical(bitXor(bitXor(i7, j7), k7),
+                  bitXor(i7, bitXor(j7, k7)))
+    })
+} ) # ..time
 
 ### Verify cksum()  -------------------------------
 
@@ -156,4 +162,3 @@ stopifnot(exprs = {
     is.na(bitShiftR(a, runif(10)*32)[-b])
     is.na(bitShiftL(a, runif(10)*32)[-b])
 })
-
