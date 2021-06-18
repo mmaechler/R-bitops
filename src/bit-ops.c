@@ -3,7 +3,7 @@
 #include "bit-ops.h"
 
 // in case of a negative, cast twice;
-#define I_2_UINT(I)   (unsigned int) ((I) < 0 ? (I + UINT_MAX +1) : (I))
+#define I_2_UINT(I)   (unsigned int) ((I) < 0 ? ((I)+ UINT_MAX +1): (I))
 #define _2_UINT_(X)   (unsigned int) ((X) < 0 ?  I_2_UINT((int)X) : (X))
 #define R_2_UINT(X, I) unsigned int I = _2_UINT_(X)
 
