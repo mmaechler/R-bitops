@@ -1,10 +1,11 @@
 Package: bitops
-Version: 1.0-7
-Date: 2021-04-13
-Author: S original by Steve Dutky <sdutky@terpalum.umd.edu> initial R
-        port and extensions by Martin Maechler; revised and modified
-        by Steve Dutky
-Maintainer: Martin Maechler <maechler@stat.math.ethz.ch>
+Version: 1.0-8
+Date: 2023-07-29
+Authors@R: c(
+   person("Steve", "Dutky", role = "aut", email = "sdutky@terpalum.umd.edu",
+    	     comment = "S original; then (after MM's port) revised and modified"),
+   person("Martin", "Maechler", role = c("cre", "aut"), email = "maechler@stat.math.ethz.ch",
+	     comment = c("Initial R port; tweaks", ORCID = "0000-0002-8685-9910")))
 Title: Bitwise Operations
 Description: Functions for bitwise operations on integer vectors.
 License: GPL (>= 2)

@@ -1,3 +1,7 @@
+2024-07-29  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Authors@R, Version): 1.0-8
+
 2021-04-13  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* From Dan Robertson (dlrobertson) via GH PR #3, Feb.2016:
