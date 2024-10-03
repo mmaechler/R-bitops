@@ -1,4 +1,5 @@
 #include <math.h>
+#include <limits.h>
 
 #include "bit-ops.h"
 

@@ -1,6 +1,6 @@
 Package: bitops
-Version: 1.0-8
-Date: 2024-07-29
+Version: 1.0-9
+Date: 2024-10-03
 Authors@R: c(
    person("Steve", "Dutky", role = "aut", email = "sdutky@terpalum.umd.edu",
     	     comment = "S original; then (after MM's port) revised and modified"),
