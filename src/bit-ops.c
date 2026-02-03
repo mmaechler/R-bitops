@@ -3,13 +3,9 @@
 
 #include "bit-ops.h"
 
-// Helper to prevent aggressive compiler optimization that transforms
-// (unsigned int)(long long)double to (unsigned int)double.
-// The latter can trap on negative inputs with some vector instructions (e.g. vcvttsd2usi).
-static inline unsigned int double_to_uint(double x) {
-    volatile long long tmp = (long long)x;
-    return (unsigned int)tmp;
-}
+// For x<0, double->unsigned is undefined, while long long->x
+//   is defined to be a positive number congruent to x modulo 2^nbits
+#define _2_UINT_(X) ((unsigned int)((long long)(X)))
 
 /*
 	bitwise complement for use with .Call to bitFlip masked to bitWidth
@@ -29,7 +25,7 @@ SEXP bitFlip(SEXP a, SEXP bitWidth )
 	if ( !R_FINITE(xa[i]) || logb(xa[i])>31 )
 	    xaflip[i]=NA_REAL ;
 	else {
-		unsigned int tmp = double_to_uint(xa[i);
+		unsigned int tmp = _2_UINT_(xa[i);
 	    xaflip[i]=(double) ( ~tmp & mask ) ;
 	}
     }
@@ -72,8 +68,8 @@ SEXP bitFlip(SEXP a, SEXP bitWidth )
 		*(t++)= NA_REAL;					\
 	    }								\
 	    else							\
-		*(t++) = (double) (double_to_uint(shorter[j]) __OP__		\
-		                   double_to_uint(longer [i]) ) ;		\
+		*(t++) = (double) (_2_UINT_(shorter[j]) __OP__		\
+		                   _2_UINT_(longer [i]) ) ;		\
 	    if (!(++i < nlonger)) break ;				\
 	}								\
 									\
@@ -126,7 +122,7 @@ SEXP bitXor(SEXP a, SEXP b) {
 		if ( !R_FINITE(xa[i]) || xb[j]==NA_INTEGER || logb(xa[i]) > 31 ) { \
 		    *(xaAb++) = NA_REAL ;				\
 		}							\
-		else *(xaAb++)=(double) (double_to_uint(xa[i]) __OP__ (unsigned int)(xb[j] & 31 ) ) ; \
+		else *(xaAb++)=(double) (_2_UINT_(xa[i]) __OP__ (unsigned int)(xb[j] & 31 ) ) ; \
 		if (! (++i < na) ) break ;				\
 	    }								\
 	}								\
@@ -137,7 +133,7 @@ SEXP bitXor(SEXP a, SEXP b) {
 		if ( !R_FINITE(xa[j]) || xb[i]==NA_INTEGER || logb(xa[j]) > 31 ) { \
 		    *(xaAb++) = NA_REAL ;				\
 		}							\
-		else *(xaAb++)=(double) (double_to_uint(xa[j]) __OP__ (unsigned int)(xb[i] & 31 )) ; \
+		else *(xaAb++)=(double) (_2_UINT_(xa[j]) __OP__ (unsigned int)(xb[i] & 31 )) ; \
 		if (! (++i < nb) ) break ;				\
 	    }								\
     }									\
