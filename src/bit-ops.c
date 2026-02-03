@@ -25,7 +25,7 @@ SEXP bitFlip(SEXP a, SEXP bitWidth )
 	if ( !R_FINITE(xa[i]) || logb(xa[i])>31 )
 	    xaflip[i]=NA_REAL ;
 	else {
-		unsigned int tmp = _2_UINT_(xa[i);
+		unsigned int tmp = _2_UINT_(xa[i]);
 	    xaflip[i]=(double) ( ~tmp & mask ) ;
 	}
     }
