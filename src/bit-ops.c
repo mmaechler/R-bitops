@@ -3,10 +3,9 @@
 
 #include "bit-ops.h"
 
-// in case of a negative, cast twice;
-#define I_2_UINT(I)   (unsigned int) ((I) < 0 ? ((I) + UINT_MAX +1) : (I))
-#define _2_UINT_(X)   (unsigned int) ((X) < 0 ?  I_2_UINT((int)X) : (X))
-#define R_2_UINT(X, I) unsigned int I = _2_UINT_(X)
+// For x<0, double->unsigned is undefined, while long long->x
+//   is defined to be a positive number congruent to x modulo 2^nbits
+#define _2_UINT_(X) ((unsigned int)((long long)(X)))
 
 /*
 	bitwise complement for use with .Call to bitFlip masked to bitWidth
@@ -26,7 +25,7 @@ SEXP bitFlip(SEXP a, SEXP bitWidth )
 	if ( !R_FINITE(xa[i]) || logb(xa[i])>31 )
 	    xaflip[i]=NA_REAL ;
 	else {
-	    R_2_UINT(xa[i], tmp);
+		unsigned int tmp = _2_UINT_(xa[i]);
 	    xaflip[i]=(double) ( ~tmp & mask ) ;
 	}
     }
@@ -123,7 +122,7 @@ SEXP bitXor(SEXP a, SEXP b) {
 		if ( !R_FINITE(xa[i]) || xb[j]==NA_INTEGER || logb(xa[i]) > 31 ) { \
 		    *(xaAb++) = NA_REAL ;				\
 		}							\
-		else *(xaAb++)=(double) (_2_UINT_(xa[i]) __OP__ I_2_UINT(xb[j] & 31 ) ) ; \
+		else *(xaAb++)=(double) (_2_UINT_(xa[i]) __OP__ (unsigned int)(xb[j] & 31 ) ) ; \
 		if (! (++i < na) ) break ;				\
 	    }								\
 	}								\
@@ -134,7 +133,7 @@ SEXP bitXor(SEXP a, SEXP b) {
 		if ( !R_FINITE(xa[j]) || xb[i]==NA_INTEGER || logb(xa[j]) > 31 ) { \
 		    *(xaAb++) = NA_REAL ;				\
 		}							\
-		else *(xaAb++)=(double) (_2_UINT_(xa[j]) __OP__ I_2_UINT(xb[i] & 31 )) ; \
+		else *(xaAb++)=(double) (_2_UINT_(xa[j]) __OP__ (unsigned int)(xb[i] & 31 )) ; \
 		if (! (++i < nb) ) break ;				\
 	    }								\
     }									\
