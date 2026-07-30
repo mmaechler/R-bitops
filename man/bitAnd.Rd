@@ -24,7 +24,7 @@ a \%^\% b
 \details{
   The bitwise operations are applied to the arguments cast as 32 bit
   (unsigned long) integers.  NA is returned wherever the magnitude of the
-  arguments is not less than \eqn{2^31}, or, where either of the arguments is
+  arguments is not less than \eqn{2^{31}}, or, where either of the arguments is
   not finite.
 
   For bitwise \sQuote{not} (\code{\link{!}} in \R), use \code{\link{bitFlip}()}.
