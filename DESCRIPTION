@@ -1,6 +1,7 @@
 Package: bitops
-Version: 1.0-9
-Date: 2024-10-03
+Version: 1.1-0
+VersionNote: Last CRAN: 1.0-9 on 2024-10-03
+Date: 2026-07-30
 Authors@R: c(
    person("Steve", "Dutky", role = "aut", email = "sdutky@terpalum.umd.edu",
     	     comment = "S original; then (after MM's port) revised and modified"),

@@ -1,3 +1,9 @@
+2026-07-30  Martin Maechler  <maechler@stat.math.ethz.ch>
+
+	* DESCRIPTION (Version): 1.1-0
+	* src/bit-ops.c: better macro using double_to_uint thanks to Michael Chirico.
+	* man/bitAnd.Rd: 2^{31} thanks to B.S.
+
 2024-07-29  Martin Maechler  <maechler@stat.math.ethz.ch>
 
 	* DESCRIPTION (Authors@R, Version): 1.0-8
